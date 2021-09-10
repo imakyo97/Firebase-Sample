@@ -22,4 +22,11 @@ class InputViewController: UIViewController {
     @IBAction private func didTapSaveButton(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
+
+    @IBAction func dateTextFieldValueChanged(_ sender: UIDatePicker) {
+        let dateFormatter = DateFormatter()
+        dateFormatter.calendar = Calendar(identifier: .gregorian)
+        dateFormatter.dateFormat = "YYYY年MM月dd日"
+        dateTextField.text = dateFormatter.string(from: sender.date)
+    }
 }
