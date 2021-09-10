@@ -7,13 +7,26 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UITableViewDataSource {
+
+    @IBOutlet private weak var myTableView: UITableView!
+
+    private let items:[Item] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        myTableView.dataSource = self
     }
 
+    // MARK: - UITableViewDataSource
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        items.count
+    }
 
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! MyTableViewCell
+        cell.configure(item: items[indexPath.row])
+        return cell
+    }
 }
 
