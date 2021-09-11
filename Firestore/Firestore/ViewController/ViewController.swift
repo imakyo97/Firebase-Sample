@@ -7,22 +7,65 @@
 
 import UIKit
 import FirebaseFirestore
+import FirebaseFirestoreSwift
 
 class ViewController: UIViewController, UITableViewDataSource {
 
     @IBOutlet private weak var myTableView: UITableView!
 
-    private let items:[Item] = []
+    private var items:[Item] = []
+
+    var db: Firestore!
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
+        let setting = FirestoreSettings()
+        Firestore.firestore().settings = setting
+        db = Firestore.firestore()
+
+        getCollection()
+
         myTableView.dataSource = self
     }
 
-        // MARK: - UITableViewDataSource
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "InputVCSegue" {
+            let navigationController = segue.destination as! UINavigationController
+            let inputViewController = navigationController.topViewController as! InputViewController
+            inputViewController.didSavedItem = { [weak self] in
+                guard let self = self else { return }
+                self.items.append($0)
+                self.myTableView.reloadData()
+            }
+        }
+    }
+
+    private func getCollection() {
+        db.collection("users").getDocuments() { [weak self] (querySnapshot, error) in
+            guard let self = self else { return }
+            if let error = error {
+                print("Error getting documents: \(error)")
+            } else if let documents = querySnapshot?.documents {
+                for document in documents {
+                    let result = Result {
+                        try document.data(as: Item.self)
+                    }
+                    switch result {
+                    case .success(let item):
+                        if let item = item { self.items.append(item) }
+                    case .failure(let error):
+                        print("Error decoding item: \(error)")
+                    }
+                }
+                self.myTableView.reloadData()
+            }
+        }
+    }
+
+    // MARK: - UITableViewDataSource
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        items.count
+        return items.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

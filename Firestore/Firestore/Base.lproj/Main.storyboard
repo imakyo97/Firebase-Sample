@@ -78,7 +78,7 @@
                     <navigationItem key="navigationItem" id="FeI-YA-Uej">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="TKd-v2-FuF">
                             <connections>
-                                <segue destination="9PE-nC-prT" kind="presentation" id="C9l-YR-yKs"/>
+                                <segue destination="9PE-nC-prT" kind="presentation" identifier="InputVCSegue" id="C9l-YR-yKs"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>

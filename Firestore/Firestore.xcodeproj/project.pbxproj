@@ -18,6 +18,7 @@
 		472189DE26EB7E4A006C10EF /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 472189DD26EB7E4A006C10EF /* Item.swift */; };
 		472189E026EB7FD1006C10EF /* MyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 472189DF26EB7FD1006C10EF /* MyTableViewCell.swift */; };
 		47218A0A26EC6B6E006C10EF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 47218A0926EC6B6E006C10EF /* GoogleService-Info.plist */; };
+		47218A0F26ECE89C006C10EF /* DateUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47218A0E26ECE89C006C10EF /* DateUtility.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +35,7 @@
 		472189DD26EB7E4A006C10EF /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		472189DF26EB7FD1006C10EF /* MyTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyTableViewCell.swift; sourceTree = "<group>"; };
 		47218A0926EC6B6E006C10EF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		47218A0E26ECE89C006C10EF /* DateUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateUtility.swift; sourceTree = "<group>"; };
 		826CCF31CBF0E1E524169354 /* Pods-Firestore.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Firestore.release.xcconfig"; path = "Target Support Files/Pods-Firestore/Pods-Firestore.release.xcconfig"; sourceTree = "<group>"; };
 		D3BFA8E8A848770EE09CFC6C /* Pods_Firestore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Firestore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -84,6 +86,7 @@
 				472189DD26EB7E4A006C10EF /* Item.swift */,
 				472189E226EB85D8006C10EF /* Cell */,
 				472189E126EB85C8006C10EF /* ViewController */,
+				47218A0D26ECE861006C10EF /* Utility */,
 				472189C726EB784F006C10EF /* AppDelegate.swift */,
 				472189C926EB784F006C10EF /* SceneDelegate.swift */,
 				472189CD26EB784F006C10EF /* Main.storyboard */,
@@ -109,6 +112,14 @@
 				472189DF26EB7FD1006C10EF /* MyTableViewCell.swift */,
 			);
 			path = Cell;
+			sourceTree = "<group>";
+		};
+		47218A0D26ECE861006C10EF /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				47218A0E26ECE89C006C10EF /* DateUtility.swift */,
+			);
+			path = Utility;
 			sourceTree = "<group>";
 		};
 		FF4C4BC8636612E73153B071 /* Frameworks */ = {
@@ -237,6 +248,7 @@
 				472189DE26EB7E4A006C10EF /* Item.swift in Sources */,
 				472189CC26EB784F006C10EF /* ViewController.swift in Sources */,
 				472189C826EB784F006C10EF /* AppDelegate.swift in Sources */,
+				47218A0F26ECE89C006C10EF /* DateUtility.swift in Sources */,
 				472189CA26EB784F006C10EF /* SceneDelegate.swift in Sources */,
 				472189DC26EB7D45006C10EF /* InputViewController.swift in Sources */,
 				472189E026EB7FD1006C10EF /* MyTableViewCell.swift in Sources */,
