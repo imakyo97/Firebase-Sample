@@ -20,7 +20,7 @@ class ViewController: UIViewController {
         Firestore.firestore().settings = settings
         db = Firestore.firestore()
 
-//        setDocumentWithCodable()
+        //        setDocumentWithCodable()
         serverTimestamp()
         getCollection()
     }
@@ -210,6 +210,33 @@ class ViewController: UIViewController {
     private func serverTimestamp() {
         db.collection("cities").document("LA").updateData([
             "lastUpdated": FieldValue.serverTimestamp(),
+        ]) { err in
+            if let err = err {
+                print("Error updating document: \(err)")
+            } else {
+                print("Document successfully updated")
+            }
+        }
+    }
+
+    // ドキュメントを削除する
+    // ドキュメントを削除するには、delete() メソッドを使用します。
+    private func deleteDocument() {
+        db.collection("cities").document("LA").delete() { err in
+            if let err = err {
+                print("Error removing document: \(err)")
+            } else {
+                print("Document successfully removed!")
+            }
+        }
+    }
+
+    // フィールドを削除する
+    /*特定のフィールドをドキュメントから削除するには、
+     ドキュメントを更新するときに FieldValue.delete() メソッドを使用します。*/
+    private func deleteField() {
+        db.collection("cities").document("BJ").updateData([
+            "capital": FieldValue.delete(),
         ]) { err in
             if let err = err {
                 print("Error updating document: \(err)")
