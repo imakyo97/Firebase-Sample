@@ -1,8 +1,8 @@
 //
 //  AppDelegate.swift
-//  Firestore
+//  FirestoreDocument-Sample
 //
-//  Created by 今村京平 on 2021/09/10.
+//  Created by 今村京平 on 2021/09/11.
 //
 
 import UIKit

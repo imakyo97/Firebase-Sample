@@ -17,7 +17,7 @@
 		472189DC26EB7D45006C10EF /* InputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 472189DB26EB7D45006C10EF /* InputViewController.swift */; };
 		472189DE26EB7E4A006C10EF /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 472189DD26EB7E4A006C10EF /* Item.swift */; };
 		472189E026EB7FD1006C10EF /* MyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 472189DF26EB7FD1006C10EF /* MyTableViewCell.swift */; };
-		472189E426EB88F8006C10EF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 472189E326EB88F8006C10EF /* GoogleService-Info.plist */; };
+		47218A0A26EC6B6E006C10EF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 47218A0926EC6B6E006C10EF /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,7 +33,7 @@
 		472189DB26EB7D45006C10EF /* InputViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputViewController.swift; sourceTree = "<group>"; };
 		472189DD26EB7E4A006C10EF /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		472189DF26EB7FD1006C10EF /* MyTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyTableViewCell.swift; sourceTree = "<group>"; };
-		472189E326EB88F8006C10EF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		47218A0926EC6B6E006C10EF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		826CCF31CBF0E1E524169354 /* Pods-Firestore.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Firestore.release.xcconfig"; path = "Target Support Files/Pods-Firestore/Pods-Firestore.release.xcconfig"; sourceTree = "<group>"; };
 		D3BFA8E8A848770EE09CFC6C /* Pods_Firestore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Firestore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -62,11 +62,11 @@
 		472189BB26EB784F006C10EF = {
 			isa = PBXGroup;
 			children = (
+				47218A0926EC6B6E006C10EF /* GoogleService-Info.plist */,
 				472189C626EB784F006C10EF /* Firestore */,
 				472189C526EB784F006C10EF /* Products */,
 				3D5EA735749586DECC76CAAC /* Pods */,
 				FF4C4BC8636612E73153B071 /* Frameworks */,
-				472189E326EB88F8006C10EF /* GoogleService-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -179,7 +179,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				472189D426EB7850006C10EF /* LaunchScreen.storyboard in Resources */,
-				472189E426EB88F8006C10EF /* GoogleService-Info.plist in Resources */,
+				47218A0A26EC6B6E006C10EF /* GoogleService-Info.plist in Resources */,
 				472189D126EB7850006C10EF /* Assets.xcassets in Resources */,
 				472189CF26EB784F006C10EF /* Main.storyboard in Resources */,
 			);

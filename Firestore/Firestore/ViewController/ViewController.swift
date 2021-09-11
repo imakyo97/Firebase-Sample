@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FirebaseFirestore
 
 class ViewController: UIViewController, UITableViewDataSource {
 
@@ -15,10 +16,11 @@ class ViewController: UIViewController, UITableViewDataSource {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         myTableView.dataSource = self
     }
 
-    // MARK: - UITableViewDataSource
+        // MARK: - UITableViewDataSource
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         items.count
     }
