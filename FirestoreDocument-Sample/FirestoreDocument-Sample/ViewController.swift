@@ -20,9 +20,7 @@ class ViewController: UIViewController {
         Firestore.firestore().settings = settings
         db = Firestore.firestore()
 
-        //        setDocumentWithCodable()
-        serverTimestamp()
-        getCollection()
+        getDocument()
     }
 
     // データを追加
@@ -245,6 +243,87 @@ class ViewController: UIViewController {
             }
         }
     }
+
+    // ドキュメントを取得する
+    // get() を使用して単一のドキュメントの内容を取得する方法
+    // exists = 存在する
+    private func getDocument() {
+        let docRef = db.collection("cities").document("LA")
+        docRef.getDocument { (document, error) in
+            if let document = document, document.exists {
+                let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
+                print("Document data: \(dataDescription)")
+                print(type(of: dataDescription))
+
+            } else {
+                print("Document does not exist")
+            }
+        }
+    }
+
+    // ドキュメントを取得する
+    // sourceオプション
+    /*get() の呼び出しで source オプションを指定すると、デフォルトの動作を変更できます。
+     データベースのみから取得してオフライン キャッシュを無視することも、
+     オフライン キャッシュのみから取得することもできます。*/
+    private func getDocumentWithOptions() {
+        let docRef = db.collection("cities").document("LA")
+        docRef.getDocument(source: .cache) { (document, error) in
+            if let document = document {
+                let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
+                print("Cached document data: \(dataDescription)")
+            } else {
+                print("Document does not exist in cache")
+            }
+        }
+    }
+
+    // ドキュメントを取得する
+    // カスタムオブジェクト
+    private func customClassGetDocument() {
+        let docRef = db.collection("cities").document("LA")
+        docRef.getDocument { (document, error) in
+            let result = Result {
+                try document?.data(as: City.self)
+            }
+            switch result {
+            case .success(let city):
+                if let city = city {
+                    print("City: \(city)")
+                } else {
+                    print("Document does not exist")
+                }
+            case .failure(let error):
+                print("Error decoding city: \(error)")
+            }
+        }
+    }
+
+    // 複数のドキュメントを取得する
+    /*コレクション内のドキュメントに対してクエリを実行すれば、
+     1 回のリクエストで複数のドキュメントを取得することも可能です。
+     たとえば where() を使用して、特定の条件を満たすすべてのドキュメントをクエリし、
+     get() を使用して結果を取得できます。*/
+    private func getMultiple() {
+        db.collection("cities").whereField("capital", isEqualTo: true)
+            .getDocuments() { (querySnapshot, err) in
+                if let err = err {
+                    print("Error getting documents: \(err)")
+                } else {
+                    for document in querySnapshot!.documents {
+                        print("\(document.documentID) => \(document.data())")
+                    }
+                }
+            }
+    }
+
+    // 複数のドキュメントを取得する
+    /*[重要]コレクション グループは、同じ ID を持つすべてのコレクションで構成されています。
+     たとえば、cities コレクションの各ドキュメントに landmarks というサブコレクションがある場合、
+     すべての landmarks サブコレクションは、同じコレクション グループに属します。
+     デフォルトでは、クエリは、データベース内の単一コレクションから結果を取得します。
+     単一コレクションからではなく、コレクション グループから結果を取得するには、
+     コレクション グループ クエリを使用します。*/
 }
 
 // カスタムオブジェクト
