@@ -9,4 +9,6 @@ target 'Firestore' do
 
 pod 'Firebase/Firestore'
 pod 'FirebaseFirestoreSwift'
+pod 'Firebase/Auth'
+
 end
