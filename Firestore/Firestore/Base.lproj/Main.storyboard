@@ -146,6 +146,13 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yVR-pp-zNB">
+                                <rect key="frame" x="153" y="406" width="108" height="30"/>
+                                <state key="normal" title="テスト用ボタン"/>
+                                <connections>
+                                    <action selector="didTapTestButton:" destination="5ym-cg-PSc" eventType="touchUpInside" id="XuL-hC-ZHL"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="8LD-8V-SRV"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -165,9 +172,11 @@
                             <constraint firstItem="JyK-Ve-BMT" firstAttribute="leading" secondItem="r9T-U1-ISM" secondAttribute="trailing" constant="15" id="bsV-tr-J7s"/>
                             <constraint firstItem="JyK-Ve-BMT" firstAttribute="centerY" secondItem="r9T-U1-ISM" secondAttribute="centerY" id="cll-Yx-S8e"/>
                             <constraint firstItem="c4A-jC-pbM" firstAttribute="leading" secondItem="9k4-Ic-Bvi" secondAttribute="trailing" constant="15" id="i1w-NQ-S6C"/>
+                            <constraint firstItem="yVR-pp-zNB" firstAttribute="centerY" secondItem="ddi-6d-v36" secondAttribute="centerY" id="jre-mS-vLn"/>
                             <constraint firstItem="bXQ-ga-7mb" firstAttribute="centerX" secondItem="ddi-6d-v36" secondAttribute="centerX" constant="20" id="kE0-FK-r0L"/>
                             <constraint firstItem="bXQ-ga-7mb" firstAttribute="centerY" secondItem="PeS-nJ-vEQ" secondAttribute="centerY" id="ksN-r2-lu6"/>
                             <constraint firstItem="bXQ-ga-7mb" firstAttribute="top" secondItem="8LD-8V-SRV" secondAttribute="top" constant="30" id="mmf-U0-5AD"/>
+                            <constraint firstItem="yVR-pp-zNB" firstAttribute="centerX" secondItem="ddi-6d-v36" secondAttribute="centerX" id="nhW-BE-3Nm"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="uG0-Cb-2iM">

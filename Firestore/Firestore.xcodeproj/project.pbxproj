@@ -83,7 +83,7 @@
 		472189C626EB784F006C10EF /* Firestore */ = {
 			isa = PBXGroup;
 			children = (
-				472189DD26EB7E4A006C10EF /* Item.swift */,
+				47218A1026ED9C3B006C10EF /* Item */,
 				472189E226EB85D8006C10EF /* Cell */,
 				472189E126EB85C8006C10EF /* ViewController */,
 				47218A0D26ECE861006C10EF /* Utility */,
@@ -120,6 +120,14 @@
 				47218A0E26ECE89C006C10EF /* DateUtility.swift */,
 			);
 			path = Utility;
+			sourceTree = "<group>";
+		};
+		47218A1026ED9C3B006C10EF /* Item */ = {
+			isa = PBXGroup;
+			children = (
+				472189DD26EB7E4A006C10EF /* Item.swift */,
+			);
+			path = Item;
 			sourceTree = "<group>";
 		};
 		FF4C4BC8636612E73153B071 /* Frameworks */ = {

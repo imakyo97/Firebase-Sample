@@ -7,6 +7,7 @@
 
 import UIKit
 import FirebaseFirestore
+import FirebaseAuth
 
 class InputViewController: UIViewController {
 
@@ -31,7 +32,7 @@ class InputViewController: UIViewController {
 
     private func setDocument(item: Item) {
         do {
-            let usersRef = db.collection("users").document()
+            let usersRef = db.collection("users").document(Auth.auth().currentUser!.uid).collection("KakeiboData").document()
             try usersRef.setData(from: item)
         } catch let error {
             print("Error writing city to Firestore: \(error)")
@@ -39,23 +40,26 @@ class InputViewController: UIViewController {
     }
 
     @IBAction private func didTapSaveButton(_ sender: Any) {
-        guard let name = nameTextField.text else { return }
-        guard let stringDate = dateTextField.text else { return }
-        guard let stringValue = valueTextField.text else { return }
-        let date = DateUtility.dateFromString(stringDate: stringDate, format: "YYYY年MM月dd日")
-        let value = Int(stringValue) ?? 0
+        guard nameTextField.text != "" else { return }
+        guard dateTextField.text != "" else { return }
+        guard valueTextField.text != "" else { return }
+        let date = DateUtility.dateFromString(stringDate: dateTextField.text!, format: "YYYY年MM月dd日")
+        let value = Int(valueTextField.text!) ?? 0
         let plusMinus = value >= 0 ? PlusMinus.plus(value) : PlusMinus.minus(value)
-        let item = Item(name: name, date: date, value: plusMinus)
+        let item = Item(name: nameTextField.text!, date: date, value: plusMinus)
         self.didSavedItem(item)
         setDocument(item: item)
         dismiss(animated: true, completion: nil)
     }
 
-    @IBAction func dateTextFieldValueChanged(_ sender: UIDatePicker) {
+    @IBAction private func dateTextFieldValueChanged(_ sender: UIDatePicker) {
         dateTextField.text =
             DateUtility.stringFromDate(
                 date: sender.date,
                 format: "YYYY年MM月dd日"
             )
+    }
+
+    @IBAction private func didTapTestButton(_ sender: Any) {
     }
 }

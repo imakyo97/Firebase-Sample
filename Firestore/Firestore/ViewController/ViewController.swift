@@ -8,6 +8,7 @@
 import UIKit
 import FirebaseFirestore
 import FirebaseFirestoreSwift
+import FirebaseAuth
 
 class ViewController: UIViewController, UITableViewDataSource {
 
@@ -17,8 +18,14 @@ class ViewController: UIViewController, UITableViewDataSource {
 
     var db: Firestore!
 
+    var uid: String?
+
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        print("----\(#function)----")
+
+        uid = Auth.auth().currentUser?.uid
 
         let setting = FirestoreSettings()
         Firestore.firestore().settings = setting
@@ -42,7 +49,7 @@ class ViewController: UIViewController, UITableViewDataSource {
     }
 
     private func getCollection() {
-        db.collection("users").getDocuments() { [weak self] (querySnapshot, error) in
+        db.collection("users").document(uid!).collection("KakeiboData").getDocuments { [weak self] (querySnapshot, error) in
             guard let self = self else { return }
             if let error = error {
                 print("Error getting documents: \(error)")
