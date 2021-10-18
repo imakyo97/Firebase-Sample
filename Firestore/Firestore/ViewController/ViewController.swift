@@ -18,15 +18,10 @@ class ViewController: UIViewController, UITableViewDataSource {
 
     var db: Firestore!
 
-    var uid: String?
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
         print("----\(#function)----")
-
-        uid = Auth.auth().currentUser?.uid
-
         let setting = FirestoreSettings()
         Firestore.firestore().settings = setting
         db = Firestore.firestore()
@@ -49,7 +44,7 @@ class ViewController: UIViewController, UITableViewDataSource {
     }
 
     private func getCollection() {
-        db.collection("users").document(uid!).collection("KakeiboData").getDocuments { [weak self] (querySnapshot, error) in
+        db.collection("users").document(Auth.auth().currentUser!.uid).collection("KakeiboData").getDocuments { [weak self] (querySnapshot, error) in
             guard let self = self else { return }
             if let error = error {
                 print("Error getting documents: \(error)")
