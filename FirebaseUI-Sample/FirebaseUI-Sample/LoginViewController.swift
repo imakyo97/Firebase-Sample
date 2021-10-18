@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import FBSDKLoginKit
 
 final class LoginViewController: UIViewController {
 
@@ -36,16 +35,17 @@ final class LoginViewController: UIViewController {
     // MARK: - viewDidLoad()
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupMode()
     }
 
     private func setupMode() {
         switch mode {
         case .login:
-            userNameLabel.isHidden = true
-            userTextField.isHidden = true
-            enterButton.titleLabel?.text = "ログイン"
+            userNameLabel.removeFromSuperview()
+            userTextField.removeFromSuperview()
+            enterButton.setTitle("ログイン", for: .normal)
         case .register:
-            enterButton.titleLabel?.text = "登録"
+            enterButton.setTitle("登録", for: .normal)
         }
     }
 
@@ -57,5 +57,15 @@ final class LoginViewController: UIViewController {
     }
 
     @IBAction private func didTapEnterButton(_ sender: Any) {
+    }
+}
+
+extension LoginViewController {
+    static func instantiate(mode: Mode) -> LoginViewController {
+        let storyBoard = UIStoryboard(name: "Login", bundle: nil)
+        let loginViewController = storyBoard.instantiateInitialViewController { coder in
+            LoginViewController(coder: coder, mode: mode)
+        }!
+        return loginViewController
     }
 }
