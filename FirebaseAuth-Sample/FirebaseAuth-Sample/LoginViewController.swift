@@ -6,12 +6,13 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 final class LoginViewController: UIViewController {
 
     enum Mode {
         case login
-        case register // 登録
+        case create // 登録
     }
 
     @IBOutlet private weak var userNameLabel: UILabel!
@@ -44,8 +45,53 @@ final class LoginViewController: UIViewController {
             userNameLabel.removeFromSuperview()
             userTextField.removeFromSuperview()
             enterButton.setTitle("ログイン", for: .normal)
-        case .register:
+        case .create:
             enterButton.setTitle("登録", for: .normal)
+        }
+    }
+
+    private func createUser() {
+        guard userTextField.text != "" else { return }
+        guard mailTextField.text != "" else { return }
+        guard passwordTextField.text != "" else { return }
+        // メールアドレスとパスワードを渡して、新しいアカウントを作成
+        Auth.auth().createUser(withEmail: mailTextField.text!,
+                               password: passwordTextField.text!) { authResult, error in
+            // アカウント作成に失敗
+            guard let authResult = authResult else {
+                print("createUser()-error: \(error!.localizedDescription)")
+                return
+            }
+            // アカウント作成に成功
+            print("createUser()-success: \(authResult)")
+            self.changeRequestDisplayName(displayName: self.userTextField.text!)
+            self.dismiss(animated: true, completion: nil)
+        }
+    }
+
+    private func signIn() {
+        guard mailTextField.text != "" else { return }
+        guard passwordTextField.text != "" else { return }
+        // メールアドレスとパスワードを渡して、ログイン
+        Auth.auth().signIn(withEmail: mailTextField.text!,
+                           password: passwordTextField.text!) { authResult, error in
+            // ログインに失敗
+            guard let authResult = authResult else {
+                print("signIn()-error: \(error!.localizedDescription)")
+                return
+            }
+            // ログインに成功
+            print("signIn()-success: \(authResult)")
+            self.dismiss(animated: true, completion: nil)
+        }
+    }
+
+    private func changeRequestDisplayName(displayName: String) {
+        let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
+        changeRequest?.displayName = displayName
+        print("changeRequest.displayName: \(changeRequest?.displayName)")
+        changeRequest?.commitChanges { error in
+            print("changeRequest.commitChanges-error: \(error?.localizedDescription)")
         }
     }
 
@@ -54,9 +100,21 @@ final class LoginViewController: UIViewController {
     }
 
     @IBAction private func didTapSaveButton(_ sender: Any) {
+        switch mode {
+        case .login:
+            signIn()
+        case .create:
+            createUser()
+        }
     }
 
     @IBAction private func didTapEnterButton(_ sender: Any) {
+        switch mode {
+        case .login:
+            signIn()
+        case .create:
+            createUser()
+        }
     }
 }
 
