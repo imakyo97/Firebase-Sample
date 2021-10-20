@@ -6,14 +6,33 @@
 //
 
 import UIKit
+import FirebaseUI
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, FUIAuthDelegate {
+
+    private var authViewController: UINavigationController?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        setupAuthViewController()
     }
 
+    private func setupAuthViewController() {
+        if let authUI = FUIAuth.defaultAuthUI() {
+            let providers: [FUIAuthProvider] = [
+                FUIGoogleAuth(authUI: authUI),
+                FUIOAuth.appleAuthProvider(),
+                FUIOAuth.twitterAuthProvider(),
+                FUIEmailAuth()
+            ]
+            authUI.providers = providers
+            authUI.delegate = self
+            authViewController = authUI.authViewController()
+        }
+    }
 
+    @IBAction func didTapLoginButton(_ sender: Any) {
+        guard let authViewController = authViewController else { return }
+        present(authViewController, animated: true, completion: nil)
+    }
 }
-

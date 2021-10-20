@@ -7,6 +7,7 @@ target 'FirebaseUI-Sample1' do
 
   # Pods for FirebaseUI-Sample1
 pod 'Firebase/Firestore'
-pod 'FirebaseFirestoreSwift'
-pod 'FirebaseUI/Auth'
+pod 'FirebaseFirestoreSwift', '~> 7.5.0-beta'
+pod 'FirebaseUI'
+
 end
