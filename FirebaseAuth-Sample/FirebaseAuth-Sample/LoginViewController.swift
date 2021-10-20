@@ -21,6 +21,7 @@ final class LoginViewController: UIViewController {
     @IBOutlet private weak var passwordStackView: UIStackView!
     @IBOutlet private var iconViews: [UIView]!
     @IBOutlet private weak var enterButton: UIButton!
+    @IBOutlet private weak var forgotPasswordButton: UIButton!
 
     private let mode: Mode
 
@@ -66,6 +67,7 @@ final class LoginViewController: UIViewController {
             userNameStackView.removeFromSuperview()
             enterButton.setTitle("ログイン", for: .normal)
         case .create:
+            forgotPasswordButton.removeFromSuperview()
             enterButton.setTitle("登録", for: .normal)
         }
     }

@@ -155,6 +155,7 @@
                             <constraint firstItem="sYt-me-b69" firstAttribute="trailing" secondItem="Yww-4A-SoH" secondAttribute="trailing" id="Ncn-Oi-NTA"/>
                             <constraint firstItem="sYt-me-b69" firstAttribute="top" secondItem="Yww-4A-SoH" secondAttribute="bottom" id="V2R-bb-Erb"/>
                             <constraint firstItem="cXT-OY-ewA" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="30" id="ksl-GV-SnG"/>
+                            <constraint firstItem="LeD-T1-s7Z" firstAttribute="top" relation="greaterThanOrEqual" secondItem="Yww-4A-SoH" secondAttribute="bottom" priority="750" constant="30" id="qGE-5m-yYt"/>
                             <constraint firstItem="LeD-T1-s7Z" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="sUG-hr-O2c"/>
                             <constraint firstItem="cXT-OY-ewA" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="w8f-jZ-Ezz"/>
                             <constraint firstItem="Yww-4A-SoH" firstAttribute="top" secondItem="cXT-OY-ewA" secondAttribute="bottom" constant="30" id="yHK-a2-cei"/>
@@ -165,6 +166,7 @@
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
                         <outlet property="enterButton" destination="LeD-T1-s7Z" id="bxu-pP-BCv"/>
+                        <outlet property="forgotPasswordButton" destination="sYt-me-b69" id="BIg-uQ-fSH"/>
                         <outlet property="mailStackView" destination="Da4-YR-tAO" id="lba-ck-Co7"/>
                         <outlet property="passwordStackView" destination="aCf-aS-whh" id="UfS-Fs-um5"/>
                         <outlet property="topImageView" destination="cXT-OY-ewA" id="blf-ia-7Ka"/>
