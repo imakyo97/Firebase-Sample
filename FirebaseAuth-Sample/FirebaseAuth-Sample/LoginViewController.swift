@@ -19,7 +19,7 @@ final class LoginViewController: UIViewController {
     @IBOutlet private weak var userNameStackView: UIStackView!
     @IBOutlet private weak var mailStackView: UIStackView!
     @IBOutlet private weak var passwordStackView: UIStackView!
-    @IBOutlet var iconImageViews: [UIImageView]!
+    @IBOutlet private var iconViews: [UIView]!
     @IBOutlet private weak var enterButton: UIButton!
 
     private let mode: Mode
@@ -51,7 +51,7 @@ final class LoginViewController: UIViewController {
             $0.layer.cornerRadius = $0.bounds.height / 2
             $0.layer.masksToBounds = true
         }
-        iconImageViews.forEach {
+        iconViews.forEach {
             $0.layer.cornerRadius = $0.bounds.height / 2
             $0.layer.masksToBounds = true
         }
