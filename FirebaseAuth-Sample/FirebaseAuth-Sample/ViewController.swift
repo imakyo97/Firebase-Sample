@@ -43,6 +43,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     // MARK: - UIViewControllerDelegate
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // 画面遷移を実装
+        let loginViewController = LoginViewController.instantiate(mode: .create)
+        navigationController?.pushViewController(loginViewController, animated: true)
     }
     
 //    override func viewWillAppear(_ animated: Bool) {
