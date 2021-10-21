@@ -69,13 +69,15 @@ final class LoginViewController: UIViewController {
     private func setupMode() {
         switch mode {
         case .login:
+            let login = "ログイン"
             userNameStackView.removeFromSuperview()
-            enterButton.setTitle("ログイン", for: .normal)
-            enterRightBarButton.title = "ログイン"
+            enterButton.setTitle(login, for: .normal)
+            enterRightBarButton.title = login
         case .create(let userName):
+            let register = "登録"
             forgotPasswordButton.removeFromSuperview()
-            enterButton.setTitle("登録", for: .normal)
-            enterRightBarButton.title = "登録"
+            enterButton.setTitle(register, for: .normal)
+            enterRightBarButton.title = register
             self.userName = userName
         }
     }
