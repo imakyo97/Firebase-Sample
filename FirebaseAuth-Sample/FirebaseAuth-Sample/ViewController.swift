@@ -60,6 +60,7 @@ final class ViewController: UIViewController {
         if currentUser == nil {
             let loginViewController = LoginViewController.instantiate(mode: .login)
             let navigationController = UINavigationController(rootViewController: loginViewController)
+            navigationController.modalPresentationStyle = .fullScreen
             present(navigationController, animated: true, completion: nil)
         } else {
             let firebaseAuth = Auth.auth()
@@ -76,6 +77,7 @@ final class ViewController: UIViewController {
             mode: .create({ userName in self.userNameLabel.text = userName })
         )
         let navigationController = UINavigationController(rootViewController: loginViewController)
+        navigationController.modalPresentationStyle = .fullScreen
         present(navigationController, animated: true, completion: nil)    }
 }
 

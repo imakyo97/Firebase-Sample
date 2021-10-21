@@ -13,6 +13,7 @@ final class LoginViewController: UIViewController {
     enum Mode {
         case login
         case create((String) -> ()) // 登録
+        case fotgotPassword
     }
 
     @IBOutlet private weak var topImageView: UIImageView!
@@ -79,7 +80,12 @@ final class LoginViewController: UIViewController {
             enterButton.setTitle(register, for: .normal)
             enterRightBarButton.title = register
             self.userName = userName
-
+        case .fotgotPassword:
+            userNameStackView.removeFromSuperview()
+            passwordStackView.removeFromSuperview()
+            forgotPasswordButton.removeFromSuperview()
+            enterButton.setTitle("再設定メールを送信", for: .normal)
+            enterRightBarButton.title = "送信"
         }
     }
 
@@ -148,21 +154,41 @@ final class LoginViewController: UIViewController {
         }
     }
 
+    private func sendPasswordReset() {
+        guard let mail = mailTextField.text else { return }
+        Auth.auth().sendPasswordReset(withEmail: mail) { error in
+            if let error = error {
+                print("sendPasswordReset-Error: \(error)")
+            } else {
+                print("sendPasswordReset-Success")
+                self.navigationController?.popViewController(animated: true)
+            }
+        }
+    }
+
     @IBAction private func didTapEnterButton(_ sender: Any) {
         switch mode {
         case .login:
             signIn()
         case .create:
             createUser()
+        case .fotgotPassword:
+            sendPasswordReset()
         }
     }
 
     @IBAction func didTapCancelBarButtn(_ sender: Any) {
-        dismiss(animated: true, completion: nil)
+        switch mode {
+        case .login, .create:
+            dismiss(animated: true, completion: nil)
+        case .fotgotPassword:
+            navigationController?.popViewController(animated: true)
+        }
     }
 
     @IBAction func didTapForgotPasswordButton(_ sender: Any) {
-
+        let loginViewController = LoginViewController.instantiate(mode: .fotgotPassword)
+        navigationController?.pushViewController(loginViewController, animated: true)
     }
 }
 
