@@ -59,7 +59,8 @@ final class ViewController: UIViewController {
     @IBAction func didTapEntryButton(_ sender: Any) {
         if currentUser == nil {
             let loginViewController = LoginViewController.instantiate(mode: .login)
-            navigationController?.pushViewController(loginViewController, animated: true)
+            let navigationController = UINavigationController(rootViewController: loginViewController)
+            present(navigationController, animated: true, completion: nil)
         } else {
             let firebaseAuth = Auth.auth()
             do {
@@ -74,7 +75,7 @@ final class ViewController: UIViewController {
         let loginViewController = LoginViewController.instantiate(
             mode: .create({ userName in self.userNameLabel.text = userName })
         )
-        navigationController?.pushViewController(loginViewController, animated: true)
-    }
+        let navigationController = UINavigationController(rootViewController: loginViewController)
+        present(navigationController, animated: true, completion: nil)    }
 }
 

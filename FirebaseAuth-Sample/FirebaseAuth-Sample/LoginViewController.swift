@@ -79,6 +79,7 @@ final class LoginViewController: UIViewController {
             enterButton.setTitle(register, for: .normal)
             enterRightBarButton.title = register
             self.userName = userName
+
         }
     }
 
@@ -111,7 +112,7 @@ final class LoginViewController: UIViewController {
                     print("💣error: \(error)")
                 } else {
                     // 確認メール送信成功
-                    self.navigationController?.popViewController(animated: true)
+                    self.dismiss(animated: true, completion: nil)
                 }
             }
         }
@@ -130,7 +131,7 @@ final class LoginViewController: UIViewController {
             }
             // ログインに成功
             print("signIn()-success: \(authResult)")
-            self.navigationController?.popViewController(animated: true)
+            self.dismiss(animated: true, completion: nil)
         }
     }
 
@@ -154,6 +155,14 @@ final class LoginViewController: UIViewController {
         case .create:
             createUser()
         }
+    }
+
+    @IBAction func didTapCancelBarButtn(_ sender: Any) {
+        dismiss(animated: true, completion: nil)
+    }
+
+    @IBAction func didTapForgotPasswordButton(_ sender: Any) {
+
     }
 }
 

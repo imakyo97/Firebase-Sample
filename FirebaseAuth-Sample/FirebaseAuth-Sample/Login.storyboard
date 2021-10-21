@@ -131,6 +131,9 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                 <state key="normal" title="パスワードを忘れた方"/>
+                                <connections>
+                                    <action selector="didTapForgotPasswordButton:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="SUe-O7-8ds"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LeD-T1-s7Z">
                                 <rect key="frame" x="117" y="510" width="180" height="40"/>
@@ -166,7 +169,12 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Aaf-bk-dGv">
-                        <barButtonItem key="rightBarButtonItem" title="Item" id="ljc-hB-KrG">
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="4XT-FJ-mu6">
+                            <connections>
+                                <action selector="didTapCancelBarButtn:" destination="Y6W-OH-hqX" id="y0k-pi-Wf9"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Enter" id="ljc-hB-KrG">
                             <connections>
                                 <action selector="didTapEnterButton:" destination="Y6W-OH-hqX" id="iVz-Ib-Pyf"/>
                             </connections>
