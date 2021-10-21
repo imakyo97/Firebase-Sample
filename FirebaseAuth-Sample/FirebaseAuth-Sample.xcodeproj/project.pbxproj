@@ -31,6 +31,7 @@
 		47452F4C271D636900A023BB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		47452F4F271D636900A023BB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		47452F51271D636900A023BB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		47C695A627217591001B09D5 /* MyPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = MyPlayground.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		47CE18F7271D670C00CA5328 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		612FBDE888C1E986165BDD46 /* Pods-FirebaseAuth-Sample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FirebaseAuth-Sample.debug.xcconfig"; path = "Target Support Files/Pods-FirebaseAuth-Sample/Pods-FirebaseAuth-Sample.debug.xcconfig"; sourceTree = "<group>"; };
 		6690DEE94270C3B7334A94FC /* Pods_FirebaseAuth_Sample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FirebaseAuth_Sample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -94,6 +95,7 @@
 				4737C4AD271D9D2700BEB4B4 /* Login.storyboard */,
 				47452F4C271D636900A023BB /* Assets.xcassets */,
 				47452F4E271D636900A023BB /* LaunchScreen.storyboard */,
+				47C695A627217591001B09D5 /* MyPlayground.playground */,
 				47452F51271D636900A023BB /* Info.plist */,
 				47CE18F7271D670C00CA5328 /* GoogleService-Info.plist */,
 			);

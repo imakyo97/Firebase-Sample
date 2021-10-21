@@ -36,7 +36,7 @@ final class ViewController: UIViewController {
             self.currentUser = auth.currentUser
             print("💣user.uid: \(user?.uid)")
             print("💣user.displayName: \(user?.displayName)")
-            if auth.currentUser == nil {
+            if user == nil {
                 self.userNameLabel.text = "ログアウト中"
                 self.entryButton.setTitle("ログイン", for: .normal)
             } else {
