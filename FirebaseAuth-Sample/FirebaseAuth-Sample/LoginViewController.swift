@@ -22,6 +22,10 @@ final class LoginViewController: UIViewController {
     @IBOutlet private var iconViews: [UIView]!
     @IBOutlet private weak var enterButton: UIButton!
     @IBOutlet private weak var forgotPasswordButton: UIButton!
+    @IBOutlet private weak var userNameTextField: UITextField!
+    @IBOutlet private weak var mailTextField: UITextField!
+    @IBOutlet private weak var passwordTextField: UITextField!
+    @IBOutlet private weak var enterRightBarButton: UIBarButtonItem!
 
     private let mode: Mode
 
@@ -66,9 +70,11 @@ final class LoginViewController: UIViewController {
         case .login:
             userNameStackView.removeFromSuperview()
             enterButton.setTitle("ログイン", for: .normal)
+            enterRightBarButton.title = "ログイン"
         case .create:
             forgotPasswordButton.removeFromSuperview()
             enterButton.setTitle("登録", for: .normal)
+            enterRightBarButton.title = "登録"
         }
     }
 
@@ -77,73 +83,70 @@ final class LoginViewController: UIViewController {
         topImageView.layer.cornerRadius = topImageView.bounds.height * 0.15
         topImageView.layer.masksToBounds = true
     }
-//
-//    private func createUser() {
-//        guard userTextField.text != "" else { return }
-//        guard mailTextField.text != "" else { return }
-//        guard passwordTextField.text != "" else { return }
-//        // メールアドレスとパスワードを渡して、新しいアカウントを作成
-//        Auth.auth().createUser(withEmail: mailTextField.text!,
-//                               password: passwordTextField.text!) { authResult, error in
-//            // アカウント作成に失敗
-//            guard let authResult = authResult else {
-//                print("createUser()-error: \(error!.localizedDescription)")
-//                return
-//            }
-//            // アカウント作成に成功
-//            print("createUser()-success: \(authResult)")
-//            self.changeRequestDisplayName(displayName: self.userTextField.text!)
-//            self.dismiss(animated: true, completion: nil)
-//        }
-//    }
-//
-//    private func signIn() {
-//        guard mailTextField.text != "" else { return }
-//        guard passwordTextField.text != "" else { return }
-//        // メールアドレスとパスワードを渡して、ログイン
-//        Auth.auth().signIn(withEmail: mailTextField.text!,
-//                           password: passwordTextField.text!) { authResult, error in
-//            // ログインに失敗
-//            guard let authResult = authResult else {
-//                print("signIn()-error: \(error!.localizedDescription)")
-//                return
-//            }
-//            // ログインに成功
-//            print("signIn()-success: \(authResult)")
-//            self.dismiss(animated: true, completion: nil)
-//        }
-//    }
-//
-//    private func changeRequestDisplayName(displayName: String) {
-//        let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
-//        changeRequest?.displayName = displayName
-//        print("changeRequest.displayName: \(changeRequest?.displayName)")
-//        changeRequest?.commitChanges { error in
-//            print("changeRequest.commitChanges-error: \(error?.localizedDescription)")
-//        }
-//    }
-//
-//    @IBAction private func didTapCancelBarButton(_ sender: Any) {
-//        dismiss(animated: true, completion: nil)
-//    }
-//
-//    @IBAction private func didTapSaveButton(_ sender: Any) {
-//        switch mode {
-//        case .login:
-//            signIn()
-//        case .create:
-//            createUser()
-//        }
-//    }
-//
-//    @IBAction private func didTapEnterButton(_ sender: Any) {
-//        switch mode {
-//        case .login:
-//            signIn()
-//        case .create:
-//            createUser()
-//        }
-//    }
+
+    private func createUser() {
+        guard userNameTextField.text != "" else { return }
+        guard mailTextField.text != "" else { return }
+        guard passwordTextField.text != "" else { return }
+        // メールアドレスとパスワードを渡して、新しいアカウントを作成
+        Auth.auth().createUser(withEmail: mailTextField.text!,
+                               password: passwordTextField.text!) { authResult, error in
+            // アカウント作成に失敗
+            if let error = error {
+                print("💣createUser()-error: \(error.localizedDescription)")
+                return
+            }
+            // アカウント作成に成功
+            print("💣createUser()-success: \(authResult)")
+            self.changeRequestDisplayName(displayName: self.userNameTextField.text!)
+            // 確認メール送信
+            print("💣userEmail: \(authResult?.user.email)")
+            authResult?.user.sendEmailVerification{ error in
+                if let error = error {
+                    // 確認メール送信失敗
+                    print("💣error: \(error)")
+                } else {
+                    // 確認メール送信成功
+                    self.navigationController?.popViewController(animated: true)
+                }
+            }
+        }
+    }
+
+    private func signIn() {
+        guard mailTextField.text != "" else { return }
+        guard passwordTextField.text != "" else { return }
+        // メールアドレスとパスワードを渡して、ログイン
+        Auth.auth().signIn(withEmail: mailTextField.text!,
+                           password: passwordTextField.text!) { authResult, error in
+            // ログインに失敗
+            if let error = error {
+                print("signIn()-error: \(error.localizedDescription)")
+                return
+            }
+            // ログインに成功
+            print("signIn()-success: \(authResult)")
+            self.navigationController?.popViewController(animated: true)
+        }
+    }
+
+    private func changeRequestDisplayName(displayName: String) {
+        let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
+        changeRequest?.displayName = displayName
+        print("changeRequest.displayName: \(changeRequest?.displayName)")
+        changeRequest?.commitChanges { error in
+            print("changeRequest.commitChanges-error: \(error?.localizedDescription)")
+        }
+    }
+
+    @IBAction private func didTapEnterButton(_ sender: Any) {
+        switch mode {
+        case .login:
+            signIn()
+        case .create:
+            createUser()
+        }
+    }
 }
 
 extension LoginViewController {

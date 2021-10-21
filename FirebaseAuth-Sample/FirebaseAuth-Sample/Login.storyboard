@@ -144,6 +144,9 @@
                                 <state key="normal" title="ログイン">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
+                                <connections>
+                                    <action selector="didTapEnterButton:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="Auk-m9-Eod"/>
+                                </connections>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
@@ -162,15 +165,25 @@
                             <constraint firstItem="cXT-OY-ewA" firstAttribute="width" secondItem="vDu-zF-Fre" secondAttribute="width" multiplier="0.35" id="zWl-Qf-6x3"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="Aaf-bk-dGv"/>
+                    <navigationItem key="navigationItem" id="Aaf-bk-dGv">
+                        <barButtonItem key="rightBarButtonItem" title="Item" id="ljc-hB-KrG">
+                            <connections>
+                                <action selector="didTapEnterButton:" destination="Y6W-OH-hqX" id="iVz-Ib-Pyf"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
                         <outlet property="enterButton" destination="LeD-T1-s7Z" id="bxu-pP-BCv"/>
+                        <outlet property="enterRightBarButton" destination="ljc-hB-KrG" id="VZm-84-Ruc"/>
                         <outlet property="forgotPasswordButton" destination="sYt-me-b69" id="BIg-uQ-fSH"/>
                         <outlet property="mailStackView" destination="Da4-YR-tAO" id="lba-ck-Co7"/>
+                        <outlet property="mailTextField" destination="ZmB-dr-RuE" id="DBT-Ak-ZQF"/>
                         <outlet property="passwordStackView" destination="aCf-aS-whh" id="UfS-Fs-um5"/>
+                        <outlet property="passwordTextField" destination="drz-dS-idA" id="rVF-PI-mj2"/>
                         <outlet property="topImageView" destination="cXT-OY-ewA" id="blf-ia-7Ka"/>
                         <outlet property="userNameStackView" destination="e13-D9-1hG" id="wRG-07-ecS"/>
+                        <outlet property="userNameTextField" destination="BcW-YN-VHQ" id="wUq-bF-4La"/>
                         <outletCollection property="iconViews" destination="dCi-1D-ohc" collectionClass="NSMutableArray" id="l1o-R5-nHd"/>
                         <outletCollection property="iconViews" destination="BvO-OQ-5GX" collectionClass="NSMutableArray" id="Xmx-UN-koP"/>
                         <outletCollection property="iconViews" destination="n0c-wg-TCm" collectionClass="NSMutableArray" id="lVl-hM-0hG"/>
@@ -178,7 +191,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="753.62318840579712" y="69.642857142857139"/>
+            <point key="canvasLocation" x="628" y="-66"/>
         </scene>
     </scenes>
     <resources>
