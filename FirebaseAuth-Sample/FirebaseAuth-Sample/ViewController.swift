@@ -34,8 +34,8 @@ final class ViewController: UIViewController {
         // ログイン状態が変わるたびに呼ばれる
         handle = Auth.auth().addStateDidChangeListener { auth, user in
             self.currentUser = auth.currentUser
-            print("user.uid: \(user?.uid)")
-            print("user.displayName: \(user?.displayName)")
+            print("💣user.uid: \(user?.uid)")
+            print("💣user.displayName: \(user?.displayName)")
             if auth.currentUser == nil {
                 self.userNameLabel.text = "ログアウト中"
                 self.entryButton.setTitle("ログイン", for: .normal)
@@ -71,7 +71,9 @@ final class ViewController: UIViewController {
     }
 
     @IBAction private func didTapSignUpButton(_ sender: Any) {
-        let loginViewController = LoginViewController.instantiate(mode: .create)
+        let loginViewController = LoginViewController.instantiate(
+            mode: .create({ userName in self.userNameLabel.text = userName })
+        )
         navigationController?.pushViewController(loginViewController, animated: true)
     }
 }

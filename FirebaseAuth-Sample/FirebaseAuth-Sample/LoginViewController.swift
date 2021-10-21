@@ -12,7 +12,7 @@ final class LoginViewController: UIViewController {
 
     enum Mode {
         case login
-        case create // 登録
+        case create((String) -> ()) // 登録
     }
 
     @IBOutlet private weak var topImageView: UIImageView!
@@ -28,6 +28,7 @@ final class LoginViewController: UIViewController {
     @IBOutlet private weak var enterRightBarButton: UIBarButtonItem!
 
     private let mode: Mode
+    private var userName: (String) -> () = { _ in }
 
     // MARK: - init
     init?(coder: NSCoder, mode: Mode) {
@@ -71,10 +72,11 @@ final class LoginViewController: UIViewController {
             userNameStackView.removeFromSuperview()
             enterButton.setTitle("ログイン", for: .normal)
             enterRightBarButton.title = "ログイン"
-        case .create:
+        case .create(let userName):
             forgotPasswordButton.removeFromSuperview()
             enterButton.setTitle("登録", for: .normal)
             enterRightBarButton.title = "登録"
+            self.userName = userName
         }
     }
 
@@ -135,7 +137,11 @@ final class LoginViewController: UIViewController {
         changeRequest?.displayName = displayName
         print("changeRequest.displayName: \(changeRequest?.displayName)")
         changeRequest?.commitChanges { error in
-            print("changeRequest.commitChanges-error: \(error?.localizedDescription)")
+            if let error = error {
+                print("changeRequest.commitChanges-error: \(error.localizedDescription)")
+            } else {
+                self.userName(self.userNameTextField.text!)
+            }
         }
     }
 
