@@ -133,44 +133,40 @@ final class LoginViewController: UIViewController {
                     if let error = error {
                         // 確認メール送信失敗
                         resultHandler(.failure(error))
-                        return
                     } else {
                         // 確認メール送信成功
                         resultHandler(.success(()))
-                        return
                     }
                 }
             }
         }
     }
 
-    private func signIn() {
+    private func signIn(resultHandler: @escaping ResultHandler<Void>) {
         guard mailTextField.text != "" else { return }
         guard passwordTextField.text != "" else { return }
         // メールアドレスとパスワードを渡して、ログイン
         Auth.auth().signIn(withEmail: mailTextField.text!,
-                           password: passwordTextField.text!) { [weak self] authResult, error in
-            guard let strongSelf = self else { return }
-            // ログインに失敗
+                           password: passwordTextField.text!) { authResult, error in
             if let error = error {
-                print("💣signIn()-error: \(error.localizedDescription)")
-                return
+                // ログインに失敗
+                resultHandler(.failure(error))
+            } else {
+                // ログインに成功
+                resultHandler(.success(()))
             }
-            // ログインに成功
-            print("💣signIn()-success: \(authResult)")
-            strongSelf.dismiss(animated: true, completion: nil)
         }
     }
 
-    private func sendPasswordReset() {
+    private func sendPasswordReset(resultHandler: @escaping ResultHandler<Void>) {
         guard let mail = mailTextField.text else { return }
-        Auth.auth().sendPasswordReset(withEmail: mail) { [weak self] error in
-            guard let strongSelf = self else { return }
+        Auth.auth().sendPasswordReset(withEmail: mail) { error in
             if let error = error {
-                print("sendPasswordReset-Error: \(error)")
+                // 再設定メールの送信に失敗
+                resultHandler(.failure(error))
             } else {
-                print("sendPasswordReset-Success")
-                strongSelf.navigationController?.popViewController(animated: true)
+                // 再設定メールの送信に成功
+                resultHandler(.success(()))
             }
         }
     }
@@ -181,12 +177,18 @@ final class LoginViewController: UIViewController {
         present(alert, animated: true, completion: nil)
     }
 
-    private func presentSuccessAlertView(alertTitle: String?, message: String?) {
+    private func presentSuccessAlertView(alertTitle: String?, message: String?, transition: Transition?) {
         let alert = UIAlertController(title: alertTitle, message: message, preferredStyle: .alert)
         alert.addAction(
             UIAlertAction(title: "OK", style: .default, handler: { [weak self] _ in
                 guard let strongSelf = self else { return }
-                strongSelf.dismiss(animated: true, completion: nil)
+                guard let transition = transition else { return }
+                switch transition {
+                case .dismiss:
+                    strongSelf.dismiss(animated: true, completion: nil)
+                case .popViewController:
+                    strongSelf.navigationController?.popViewController(animated: true)
+                }
             })
         )
         present(alert, animated: true, completion: nil)
@@ -195,14 +197,49 @@ final class LoginViewController: UIViewController {
     @IBAction private func didTapEnterButton(_ sender: Any) {
         switch mode {
         case .login:
-            signIn()
+            signIn() { [weak self] result in
+                guard let strongSelf = self else { return }
+                switch result {
+                case .success():
+                    strongSelf.dismiss(animated: true, completion: nil)
+                case .failure(let error):
+                    let errorCode = AuthErrorCode(rawValue: error._code)
+                    guard let errorCode = errorCode else { return }
+                    switch errorCode {
+                    case .invalidEmail:
+                        // メールアドレスの形式が正しくないことを示します。
+                        strongSelf.presentErrorAlertView(alertTitle: "メールアドレスの形式が正しくありません。",
+                                                         message: "メールアドレスを正しく入力してください。")
+                    case .userDisabled:
+                        // ユーザーのアカウントが無効になっていることを示します。
+                        strongSelf.presentErrorAlertView(alertTitle: "無効なアカウントです。",
+                                                         message: "他のアカウントでログインしてください。")
+                    case .wrongPassword:
+                        // ユーザーが間違ったパスワードでログインしようとしたことを示します。
+                        strongSelf.presentErrorAlertView(alertTitle: "パスワードが一致しません。",
+                                                         message: "パスワードを正しく入力してください。")
+                    case .userNotFound:
+                        // ユーザーアカウントが見つからなかったことを示します。
+                        strongSelf.presentErrorAlertView(alertTitle: "アカウントが見つかりません。",
+                                                         message: "アカウントを新規作成してください。")
+                    case .tooManyRequests:
+                        // 呼び出し元の端末から Firebase Authentication サーバーに異常な数のリクエストが行われた後で、リクエストがブロックされたことを示します。
+                        strongSelf.presentErrorAlertView(alertTitle: "アカウント登録に失敗しました。",
+                                         message: "しばらくしてからもう一度お試しください。")
+                    default:
+                        strongSelf.presentErrorAlertView(alertTitle: "ログインに失敗しました。",
+                                         message: error.localizedDescription)
+                    }
+                }
+            }
         case .create:
             createUser() { [weak self] result in
                 guard let strongSelf = self else { return }
                 switch result {
                 case .success():
                     strongSelf.presentSuccessAlertView(alertTitle: "確認メールを送信しました。",
-                                                 message: "確認メールが届いていない場合、メールアドレスの変更が必要です。")
+                                                 message: "確認メールが届いていない場合、メールアドレスの変更が必要です。",
+                                                       transition: .dismiss)
                 case .failure(let error):
                     Auth.auth().currentUser?.delete(completion: { error in
                         if let error = error {
@@ -235,7 +272,35 @@ final class LoginViewController: UIViewController {
                 }
             }
         case .fotgotPassword:
-            sendPasswordReset()
+            sendPasswordReset() { [weak self] result in
+                guard let strongSelf = self else { return }
+                switch result {
+                case .success():
+                    strongSelf.presentSuccessAlertView(alertTitle: "再設定メールを送信しました。",
+                                            message: "メールを確認し、パスワードの再設定を行ってください。",
+                                            transition: .popViewController)
+                case .failure(let error):
+                    let errorCode = AuthErrorCode(rawValue: error._code)
+                    guard let errorCode = errorCode else { return }
+                    switch errorCode {
+                    case .userNotFound:
+                        // ユーザーアカウントが見つからなかったことを示します。
+                        strongSelf.presentErrorAlertView(alertTitle: "アカウントが見つかりません。",
+                                                         message: "メールアドレスを正しく入力してください。")
+                    case .tooManyRequests:
+                        // 呼び出し元の端末から Firebase Authentication サーバーに異常な数のリクエストが行われた後で、リクエストがブロックされたことを示します。
+                        strongSelf.presentErrorAlertView(alertTitle: "再設定メールの送信に失敗しました。",
+                                         message: "しばらくしてからもう一度お試しください。")
+                    case .invalidEmail:
+                        // メールアドレスの形式が正しくないことを示します。
+                        strongSelf.presentErrorAlertView(alertTitle: "メールアドレスの形式が正しくありません。",
+                                         message: "メールアドレスを正しく入力してください。")
+                    default:
+                        strongSelf.presentErrorAlertView(alertTitle: "再設定メールの送信に失敗しました。",
+                                         message: error.localizedDescription)
+                    }
+                }
+            }
         }
     }
 
@@ -261,5 +326,12 @@ extension LoginViewController {
             LoginViewController(coder: coder, mode: mode)
         }!
         return loginViewController
+    }
+}
+
+extension LoginViewController {
+    enum Transition {
+        case dismiss
+        case popViewController
     }
 }
