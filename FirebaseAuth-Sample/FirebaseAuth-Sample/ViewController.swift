@@ -32,19 +32,20 @@ final class ViewController: UIViewController {
         super.viewWillAppear(animated)
         // 認証状態をリッスン
         // ログイン状態が変わるたびに呼ばれる
-        handle = Auth.auth().addStateDidChangeListener { auth, user in
-            self.currentUser = auth.currentUser
+        handle = Auth.auth().addStateDidChangeListener { [weak self] auth, user in
+            guard let strongSelf = self else { return }
+            strongSelf.currentUser = auth.currentUser
             print("💣user.uid: \(user?.uid)")
             print("💣user.displayName: \(user?.displayName)")
             if user == nil {
-                self.userNameLabel.text = "ログアウト中"
-                self.entryButton.setTitle("ログイン", for: .normal)
+                strongSelf.userNameLabel.text = "ログアウト中"
+                strongSelf.entryButton.setTitle("ログイン", for: .normal)
             } else {
-                self.entryButton.setTitle("ログアウト", for: .normal)
+                strongSelf.entryButton.setTitle("ログアウト", for: .normal)
                 if let userName = user?.displayName {
-                    self.userNameLabel.text = userName
+                    strongSelf.userNameLabel.text = userName
                 } else {
-                    self.userNameLabel.text = "未設定"
+                    strongSelf.userNameLabel.text = "未設定"
                 }
             }
         }
@@ -73,11 +74,10 @@ final class ViewController: UIViewController {
     }
 
     @IBAction private func didTapSignUpButton(_ sender: Any) {
-        let loginViewController = LoginViewController.instantiate(
-            mode: .create({ userName in self.userNameLabel.text = userName })
-        )
+        let loginViewController = LoginViewController.instantiate(mode: .create)
         let navigationController = UINavigationController(rootViewController: loginViewController)
         navigationController.modalPresentationStyle = .fullScreen
-        present(navigationController, animated: true, completion: nil)    }
+        present(navigationController, animated: true, completion: nil)
+    }
 }
 

@@ -40,6 +40,10 @@ final class LoginViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
+    deinit {
+        print("💣LoginViewController - deinit")
+    }
+
     // MARK: - viewDidLoad()
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -102,7 +106,8 @@ final class LoginViewController: UIViewController {
         guard passwordTextField.text != "" else { return }
         // メールアドレスとパスワードを渡して、新しいアカウントを作成
         Auth.auth().createUser(withEmail: mailTextField.text!,
-                               password: passwordTextField.text!) { authResult, error in
+                               password: passwordTextField.text!) { [weak self] authResult, error in
+            guard let strongSelf = self else { return }
             // アカウント作成に失敗
             if let error = error {
                 resultHandler(.failure(error))
@@ -114,7 +119,7 @@ final class LoginViewController: UIViewController {
 
             // ユーザー名の設定
             let changeRequest = authResult.user.createProfileChangeRequest()
-            changeRequest.displayName = self.userNameTextField.text!
+            changeRequest.displayName = strongSelf.userNameTextField.text!
             changeRequest.commitChanges { error in
                 // ユーザー名の設定に失敗
                 if let error = error {
@@ -144,26 +149,28 @@ final class LoginViewController: UIViewController {
         guard passwordTextField.text != "" else { return }
         // メールアドレスとパスワードを渡して、ログイン
         Auth.auth().signIn(withEmail: mailTextField.text!,
-                           password: passwordTextField.text!) { authResult, error in
+                           password: passwordTextField.text!) { [weak self] authResult, error in
+            guard let strongSelf = self else { return }
             // ログインに失敗
             if let error = error {
-                print("signIn()-error: \(error.localizedDescription)")
+                print("💣signIn()-error: \(error.localizedDescription)")
                 return
             }
             // ログインに成功
-            print("signIn()-success: \(authResult)")
-            self.dismiss(animated: true, completion: nil)
+            print("💣signIn()-success: \(authResult)")
+            strongSelf.dismiss(animated: true, completion: nil)
         }
     }
 
     private func sendPasswordReset() {
         guard let mail = mailTextField.text else { return }
-        Auth.auth().sendPasswordReset(withEmail: mail) { error in
+        Auth.auth().sendPasswordReset(withEmail: mail) { [weak self] error in
+            guard let strongSelf = self else { return }
             if let error = error {
                 print("sendPasswordReset-Error: \(error)")
             } else {
                 print("sendPasswordReset-Success")
-                self.navigationController?.popViewController(animated: true)
+                strongSelf.navigationController?.popViewController(animated: true)
             }
         }
     }
@@ -177,10 +184,12 @@ final class LoginViewController: UIViewController {
     private func presentSuccessAlertView(alertTitle: String?, message: String?) {
         let alert = UIAlertController(title: alertTitle, message: message, preferredStyle: .alert)
         alert.addAction(
-            UIAlertAction(title: "OK", style: .default, handler: { _ in
-                self.dismiss(animated: true, completion: nil)
+            UIAlertAction(title: "OK", style: .default, handler: { [weak self] _ in
+                guard let strongSelf = self else { return }
+                strongSelf.dismiss(animated: true, completion: nil)
             })
         )
+        present(alert, animated: true, completion: nil)
     }
 
     @IBAction private func didTapEnterButton(_ sender: Any) {
@@ -188,10 +197,11 @@ final class LoginViewController: UIViewController {
         case .login:
             signIn()
         case .create:
-            createUser() { result in
+            createUser() { [weak self] result in
+                guard let strongSelf = self else { return }
                 switch result {
                 case .success():
-                    self.presentSuccessAlertView(alertTitle: "確認メールを送信しました。",
+                    strongSelf.presentSuccessAlertView(alertTitle: "確認メールを送信しました。",
                                                  message: "確認メールが届いていない場合、メールアドレスの変更が必要です。")
                 case .failure(let error):
                     Auth.auth().currentUser?.delete(completion: { error in
@@ -204,24 +214,22 @@ final class LoginViewController: UIViewController {
                     switch errorCode {
                     case .emailAlreadyInUse:
                         // 登録に使用されたメールアドレスがすでに存在することを示します。
-                        self.presentErrorAlertView(alertTitle: "登録済みのメールアドレスです。",
+                        strongSelf.presentErrorAlertView(alertTitle: "登録済みのメールアドレスです。",
                                          message: "ログイン画面からログインしてください。")
                     case .invalidEmail:
                         // メールアドレスの形式が正しくないことを示します。
-                        self.presentErrorAlertView(alertTitle: "メールアドレスの形式が正しくありません。",
+                        strongSelf.presentErrorAlertView(alertTitle: "メールアドレスの形式が正しくありません。",
                                          message: "メールアドレスを正しく入力してください。")
                     case .tooManyRequests:
                         // 呼び出し元の端末から Firebase Authentication サーバーに異常な数のリクエストが行われた後で、リクエストがブロックされたことを示します。
-                        // しばらくしてからもう一度お試しください。
-                        self.presentErrorAlertView(alertTitle: "アカウント登録に失敗しました。",
+                        strongSelf.presentErrorAlertView(alertTitle: "アカウント登録に失敗しました。",
                                          message: "しばらくしてからもう一度お試しください。")
                     case .weakPassword:
                         // 設定しようとしたパスワードが弱すぎると判断されたことを示します。
-                        // NSError.userInfo 辞書オブジェクトの NSLocalizedFailureReasonErrorKey フィールドに、ユーザーに表示できる詳細な説明が含まれています。
-                        self.presentErrorAlertView(alertTitle: "パスワードが脆弱です。",
+                        strongSelf.presentErrorAlertView(alertTitle: "パスワードが脆弱です。",
                                          message: "第三者から判定されづらいパスワードにしてください")
                     default:
-                        self.presentErrorAlertView(alertTitle: "アカウント登録に失敗しました。",
+                        strongSelf.presentErrorAlertView(alertTitle: "アカウント登録に失敗しました。",
                                          message: error.localizedDescription)
                     }
                 }
@@ -231,7 +239,7 @@ final class LoginViewController: UIViewController {
         }
     }
 
-    @IBAction func didTapCancelBarButtn(_ sender: Any) {
+    @IBAction private func didTapCancelBarButtn(_ sender: Any) {
         switch mode {
         case .login, .create:
             dismiss(animated: true, completion: nil)
@@ -240,7 +248,7 @@ final class LoginViewController: UIViewController {
         }
     }
 
-    @IBAction func didTapForgotPasswordButton(_ sender: Any) {
+    @IBAction private func didTapForgotPasswordButton(_ sender: Any) {
         let loginViewController = LoginViewController.instantiate(mode: .fotgotPassword)
         navigationController?.pushViewController(loginViewController, animated: true)
     }
