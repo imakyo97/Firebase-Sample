@@ -317,6 +317,19 @@ final class LoginViewController: UIViewController {
         let loginViewController = LoginViewController.instantiate(mode: .fotgotPassword)
         navigationController?.pushViewController(loginViewController, animated: true)
     }
+
+    private let eyeImage = UIImage(systemName: "eye")
+    private let eyeSlashImage = UIImage(systemName: "eye.slash")
+    @IBAction private func didTapSecureTextButton(_ sender: UIButton) {
+        passwordTextField.isSecureTextEntry.toggle()
+        if passwordTextField.isSecureTextEntry {
+            // 入力内容を非表示
+            sender.setImage(eyeImage, for: .normal)
+        } else {
+            // 入力内容を表示
+            sender.setImage(eyeSlashImage, for: .normal)
+        }
+    }
 }
 
 extension LoginViewController {

@@ -116,11 +116,36 @@
                                                 </constraints>
                                             </view>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="パスワード" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="drz-dS-idA">
-                                                <rect key="frame" x="48" y="0.0" width="266" height="40"/>
+                                                <rect key="frame" x="48" y="0.0" width="218" height="40"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <textInputTraits key="textInputTraits" keyboardType="numbersAndPunctuation"/>
+                                                <textInputTraits key="textInputTraits" keyboardType="numbersAndPunctuation" secureTextEntry="YES"/>
                                             </textField>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WkO-g8-c6k">
+                                                <rect key="frame" x="274" y="0.0" width="40" height="40"/>
+                                                <subviews>
+                                                    <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QxC-0O-btT">
+                                                        <rect key="frame" x="7.5" y="7.5" width="25" height="25"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="25" id="stz-1b-gbV"/>
+                                                            <constraint firstAttribute="width" constant="25" id="tcA-AX-CML"/>
+                                                        </constraints>
+                                                        <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                        <state key="normal" title="" image="eye" catalog="system"/>
+                                                        <connections>
+                                                            <action selector="didTapSecureTextButton:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="u5d-Jb-2CD"/>
+                                                        </connections>
+                                                    </button>
+                                                </subviews>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstItem="QxC-0O-btT" firstAttribute="centerY" secondItem="WkO-g8-c6k" secondAttribute="centerY" id="VKK-GN-7mH"/>
+                                                    <constraint firstItem="QxC-0O-btT" firstAttribute="centerX" secondItem="WkO-g8-c6k" secondAttribute="centerX" id="YtA-rn-ZAT"/>
+                                                    <constraint firstAttribute="width" constant="40" id="bvD-Zk-JgU"/>
+                                                    <constraint firstAttribute="height" constant="40" id="cCg-Pb-Obl"/>
+                                                </constraints>
+                                            </view>
                                         </subviews>
                                         <color key="backgroundColor" red="1" green="0.95883249410000004" blue="0.80589989900000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </stackView>
@@ -199,12 +224,13 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="628" y="-66"/>
+            <point key="canvasLocation" x="627.536231884058" y="-66.294642857142861"/>
         </scene>
     </scenes>
     <resources>
         <image name="Icon" width="1536" height="1536"/>
         <image name="envelope" catalog="system" width="128" height="93"/>
+        <image name="eye" catalog="system" width="128" height="81"/>
         <image name="lock" catalog="system" width="128" height="128"/>
         <image name="person" catalog="system" width="128" height="117"/>
         <systemColor name="systemBackgroundColor">
